@@ -29,6 +29,7 @@ app.post("/login", function (req, res, next) {
         res.json({ "token": JSON.parse(body).token });
     });
 });
+
 app.get("/series/:id/images/query", function (req, res, next) {    
     var id = req.params.id;
     var keyType = req.query.keyType;
@@ -44,4 +45,39 @@ app.get("/series/:id/images/query", function (req, res, next) {
         res.json(JSON.parse(body));
     });
 });
+
+app.get("/series/:id", function (req, res, next) {    
+    var id = req.params.id;
+    var token = req.get("Authorization");
+    var language = req.get("Accept-Language");
+    request({
+        method: 'GET',
+        url: 'https://api.thetvdb.com/series/' + id,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            "Accept-Language": language
+        }
+    }, function (error, response, body) {
+        res.json(JSON.parse(body));
+    });
+});
+
+app.get("/episodes/:id", function (req, res, next) {    
+    var id = req.params.id;
+    var token = req.get("Authorization");
+    var language = req.get("Accept-Language");
+    request({
+        method: 'GET',
+        url: 'https://api.thetvdb.com/episodes/' + id,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token,
+            "Accept-Language": language
+        }
+    }, function (error, response, body) {
+        res.json(JSON.parse(body));
+    });
+});
+
 app.listen(PORT);
