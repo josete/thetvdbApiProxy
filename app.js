@@ -79,5 +79,19 @@ app.get("/episodes/:id", function (req, res, next) {
         res.json(JSON.parse(body));
     });
 });
+app.get("/refresh_token", function (req, res, next) {    
+    var id = req.params.id;
+    var token = req.get("Authorization");
+    request({
+        method: 'GET',
+        url: 'https://api.thetvdb.com/refresh_token /',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+        }
+    }, function (error, response, body) {
+        res.json(JSON.parse(body));
+    });
+});
 
 app.listen(PORT);
